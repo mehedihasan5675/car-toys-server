@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const express=require('express')
 const app=express()
 const cors=require('cors')
@@ -62,11 +62,20 @@ const result=await alltoysCollection.createIndex({sub_category:1})
 //==================================
 //MongoDB CRUD start
 //===================================
+//get all data by path
 app.get('/alltoys',async(req,res)=>{
     const query={};
     const result=await alltoysCollection.find(query).toArray()
     res.send(result)
 })
+//get one data by id
+app.get('/alltoys/:id',async(req,res)=>{
+    const ID=req.params.id
+    const query={_id:new ObjectId(ID)};
+    const result=await alltoysCollection.findOne(query)
+    res.send(result)
+})
+//get some data by category
 app.get('/alltoys/:text',async(req,res)=>{
     const text=req.params.text
     const query={ sub_category: text };
