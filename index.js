@@ -33,13 +33,46 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
+
+
+
+
+
+
+
+
+
+
+//================
+//Database COllection
+const alltoysCollection = client.db("cars-toy-DB").collection("alltoys");
+
+//==================
+
+
+
+
+
+
+
+const result=await alltoysCollection.createIndex({sub_category:1})
 
 
 //==================================
 //MongoDB CRUD start
 //===================================
-
+app.get('/alltoys',async(req,res)=>{
+    const query={};
+    const result=await alltoysCollection.find(query).toArray()
+    res.send(result)
+})
+app.get('/alltoys/:text',async(req,res)=>{
+    const text=req.params.text
+    const query={ sub_category: text };
+    const result=await alltoysCollection.find(query).toArray()
+    res.send(result)
+})
 
 
 
