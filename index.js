@@ -83,6 +83,14 @@ app.get('/alltoys/:text',async(req,res)=>{
     res.send(result)
 })
 
+//get data with userEmail wise
+app.get('/mytoys/:email',async(req,res)=>{
+  const userEmail=req.params.email 
+  const query={seller_email:userEmail}
+  const result =await alltoysCollection.find(query).toArray()
+  res.send(result)
+})
+
 //post a toy data
 app.post('/addtoy',async(req,res)=>{
   const toy=req.body
@@ -90,6 +98,7 @@ app.post('/addtoy',async(req,res)=>{
   res.send(result)
   
 })
+
 
 
 
