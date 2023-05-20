@@ -33,7 +33,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    // await client.connect();
+    await client.connect();
 
 
 
@@ -69,7 +69,7 @@ app.get('/alltoys',async(req,res)=>{
     res.send(result)
 })
 //get one data by id
-app.get('/alltoys/:id',async(req,res)=>{
+app.get('/alltoys/id/:id',async(req,res)=>{
     const ID=req.params.id
     const query={_id:new ObjectId(ID)};
     const result=await alltoysCollection.findOne(query)
@@ -81,6 +81,14 @@ app.get('/alltoys/:text',async(req,res)=>{
     const query={ sub_category: text };
     const result=await alltoysCollection.find(query).toArray()
     res.send(result)
+})
+
+//post a toy data
+app.post('/addtoy',async(req,res)=>{
+  const toy=req.body
+  const result=await alltoysCollection.insertOne(toy)
+  res.send(result)
+  
 })
 
 
