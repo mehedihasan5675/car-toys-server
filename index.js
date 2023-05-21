@@ -109,7 +109,22 @@ app.delete('/toydelete/:id',async(req,res)=>{
   
 })
 
-
+// update a toy data
+app.patch('/updateToy/:id',async(req,res)=>{
+  const Id=req.params.id 
+  const updatedToy=req.body 
+  const filter={_id:new ObjectId(Id)}
+  const updateDoc={
+    $set:{
+      price:updatedToy.price ,
+      available_quantity:updatedToy.quantity,
+      detail_description:updatedToy.description
+    }
+  }
+  
+  const result=await alltoysCollection.updateOne(filter,updateDoc)
+  res.send(result)
+})
 
 
 //==================================
