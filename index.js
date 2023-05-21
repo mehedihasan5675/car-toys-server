@@ -85,9 +85,12 @@ app.get('/alltoys/:text',async(req,res)=>{
 
 //get data with userEmail wise
 app.get('/mytoys/:email',async(req,res)=>{
+const sortName=req.body
+console.log(sortName);
+
   const userEmail=req.params.email 
   const query={seller_email:userEmail}
-  const result =await alltoysCollection.find(query).toArray()
+  const result =await alltoysCollection.find(query).sort({ price: 1 }).toArray()
   res.send(result)
 })
 
@@ -126,7 +129,24 @@ app.patch('/updateToy/:id',async(req,res)=>{
   res.send(result)
 })
 
+///////////
 
+//get data with userEmail wise
+app.post('/mytoys/:email',async(req,res)=>{
+  const sortName=req.body.sortBy
+  if(sortName==='ascending'){
+    const userEmail=req.params.email 
+    const query={seller_email:userEmail}
+    const result =await alltoysCollection.find(query).sort({ price: 1 }).toArray()
+    res.send(result)
+  }else if(sortName==='descending'){
+    const userEmail=req.params.email 
+    const query={seller_email:userEmail}
+    const result =await alltoysCollection.find(query).sort({ price: -1 }).toArray()
+    res.send(result)
+  }
+    return
+  })
 //==================================
 //MongoDB CRUD end
 //===================================
